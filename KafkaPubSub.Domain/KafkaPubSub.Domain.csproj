@@ -72,6 +72,7 @@
     <Compile Include="Applibs\KafkaEventConsumer.cs" />
     <Compile Include="Applibs\KafkaEventProducer.cs" />
     <Compile Include="Applibs\TimeStampHelper.cs" />
+    <Compile Include="Event\TimeStampEvent.cs" />
     <Compile Include="Model\EventStream.cs" />
     <Compile Include="Model\IPubSubDispatcher.cs" />
     <Compile Include="Model\IPubSubHandler.cs" />

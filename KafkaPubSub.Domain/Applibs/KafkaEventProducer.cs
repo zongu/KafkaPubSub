@@ -6,7 +6,7 @@ namespace KafkaPubSub.Domain.Applibs
     using KafkaPubSub.Domain.Model;
     using Newtonsoft.Json;
 
-    public class KafkaEventProducer
+    public class KafkaEventProducer : IDisposable
     {
         private Lazy<IProducer<string, string>> producer;
 
@@ -27,6 +27,15 @@ namespace KafkaPubSub.Domain.Applibs
 
                 return new ProducerBuilder<string, string>(config).Build();
             });
+        }
+
+        public void Dispose()
+        {
+            if (this.producer.IsValueCreated)
+            {
+                this.producer.Value.Flush();
+                this.producer = null;
+            }
         }
 
         public void Publish<T>(string topicName, int suffix, T data)

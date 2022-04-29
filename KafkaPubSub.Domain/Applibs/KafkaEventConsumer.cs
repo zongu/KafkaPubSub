@@ -9,7 +9,7 @@ namespace KafkaPubSub.Domain.Applibs
     using KafkaPubSub.Domain.Model;
     using Newtonsoft.Json;
 
-    public class KafkaEventConsumer
+    public class KafkaEventConsumer : IDisposable
     {
         private ILogPasser logger;
 
@@ -48,6 +48,10 @@ namespace KafkaPubSub.Domain.Applibs
             }).ToList();
         }
 
+        public void Dispose()
+        {
+            Stop();
+        }
 
         public void Start()
         {
@@ -78,6 +82,8 @@ namespace KafkaPubSub.Domain.Applibs
         public void Stop()
         {
             this.running = false;
+
+            Parallel.ForEach(this.consumers, consumer => consumer.Dispose());
         }
     }
 }
