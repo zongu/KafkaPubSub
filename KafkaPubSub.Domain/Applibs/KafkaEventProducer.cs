@@ -5,15 +5,14 @@ namespace KafkaPubSub.Domain.Applibs
     using Confluent.Kafka;
     using KafkaPubSub.Domain.Model;
     using Newtonsoft.Json;
-    using NLog;
 
     public class KafkaEventProducer
     {
         private Lazy<IProducer<string, string>> producer;
 
-        private ILogger logger;
+        private ILogPasser logger;
 
-        public KafkaEventProducer(string brokerList, Acks acks, ILogger logger)
+        public KafkaEventProducer(string brokerList, Acks acks, ILogPasser logger)
         {
             this.logger = logger;
 

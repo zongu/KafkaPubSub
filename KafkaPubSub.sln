@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaPubSub.Domain", "KafkaPubSub.Domain\KafkaPubSub.Domain.csproj", "{0B4EE110-3FA8-441A-8CB3-B2C364723B91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaPubSub.Producer", "KafkaPubSub.Producer\KafkaPubSub.Producer.csproj", "{6470BF14-0ED0-42F9-A20E-294D17403691}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0B4EE110-3FA8-441A-8CB3-B2C364723B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B4EE110-3FA8-441A-8CB3-B2C364723B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B4EE110-3FA8-441A-8CB3-B2C364723B91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6470BF14-0ED0-42F9-A20E-294D17403691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6470BF14-0ED0-42F9-A20E-294D17403691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6470BF14-0ED0-42F9-A20E-294D17403691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6470BF14-0ED0-42F9-A20E-294D17403691}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,11 +8,10 @@ namespace KafkaPubSub.Domain.Applibs
     using Confluent.Kafka;
     using KafkaPubSub.Domain.Model;
     using Newtonsoft.Json;
-    using NLog;
 
     public class KafkaEventConsumer
     {
-        private ILogger logger;
+        private ILogPasser logger;
 
         private IPubSubDispatcher<KafkaEventStream> dispatcher;
 
@@ -26,7 +25,7 @@ namespace KafkaPubSub.Domain.Applibs
             IEnumerable<string> topics,
             string brokerList,
             IPubSubDispatcher<KafkaEventStream> dispatcher,
-            ILogger logger)
+            ILogPasser logger)
         {
             this.logger = logger;
             this.dispatcher = dispatcher;
