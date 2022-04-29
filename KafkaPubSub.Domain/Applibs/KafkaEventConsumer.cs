@@ -22,7 +22,6 @@ namespace KafkaPubSub.Domain.Applibs
         public KafkaEventConsumer(
             int consumerNum,
             string groupId,
-            IEnumerable<string> topics,
             string brokerList,
             IPubSubDispatcher<KafkaEventStream> dispatcher,
             ILogPasser logger)
@@ -33,17 +32,19 @@ namespace KafkaPubSub.Domain.Applibs
             var config = new ConsumerConfig()
             {
                 GroupId = groupId,
-                EnableAutoCommit = true,
-                AutoCommitIntervalMs = 5000,
-                StatisticsIntervalMs = 60000,
+                EnableAutoCommit = false,
+                // 跟kafka校對狀態頻率
+                StatisticsIntervalMs = 5000,
                 BootstrapServers = brokerList,
-                AutoOffsetReset = AutoOffsetReset.Latest
+                AutoOffsetReset = AutoOffsetReset.Latest,
+                SessionTimeoutMs = 6000
             };
 
             this.consumers = Enumerable.Range(1, consumerNum).Select(index =>
             {
-                var consumer = new ConsumerBuilder<string, string>(config).Build();
-                consumer.Subscribe(topics);
+                var consumer = new ConsumerBuilder<string, string>(config)
+                    .SetErrorHandler((_, error) => this.logger.Error(new Exception(error.Reason), $"KafkaEventConsumer ErrorHandler"))
+                    .Build();
                 return consumer;
             }).ToList();
         }
@@ -53,12 +54,15 @@ namespace KafkaPubSub.Domain.Applibs
             Stop();
         }
 
-        public void Start()
+        public void Start(IEnumerable<string> topics)
         {
             this.running = true;
 
             this.consumers.ForEach(consumer =>
             {
+                // 需要有topic存在後再綁定，不然第一次consume會噴錯
+                consumer.Subscribe(topics);
+
                 Task.Run(() =>
                 {
                     while (this.running)
@@ -66,8 +70,17 @@ namespace KafkaPubSub.Domain.Applibs
                         try
                         {
                             var consumeResult = consumer.Consume(TimeSpan.FromMilliseconds(1000));
-                            var @event = JsonConvert.DeserializeObject<KafkaEventStream>(consumeResult.Message.Value);
-                            this.dispatcher.DispatchMessage(@event);
+
+                            if (consumeResult != null)
+                            {
+                                this.logger.Trace($"KafkaEventConsumer Consume Key:{consumeResult.Message.Key} Offset:{consumeResult.Offset.Value}");
+
+                                var @event = JsonConvert.DeserializeObject<KafkaEventStream>(consumeResult.Message.Value);
+                                if (this.dispatcher.DispatchMessage(@event))
+                                {
+                                    consumer.Commit(consumeResult);
+                                }
+                            }
                         }
                         catch (Exception ex)
                         {

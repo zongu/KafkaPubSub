@@ -45,17 +45,15 @@ namespace KafkaPubSub.Domain.Applibs
                 JsonConvert.SerializeObject(data),
                 TimeStampHelper.ToUtcTimeStamp(DateTime.Now));
 
-            if (producer.IsValueCreated)
+
+            producer.Value.ProduceAsync(topicName, new Message<string, string>()
             {
-                producer.Value.ProduceAsync(topicName, new Message<string, string>()
-                {
-                    Key = $"{es.Type}.{suffix}",
-                    Value = JsonConvert.SerializeObject(es)
-                }).ContinueWith(deliveryResult =>
-                {
-                    this.logger.Trace($"KafkaEventProducer Partition: {deliveryResult.Result.Partition}, Offset: {deliveryResult.Result.Offset}");
-                });
-            }
+                Key = $"{es.Type}.{suffix}",
+                Value = JsonConvert.SerializeObject(es)
+            }).ContinueWith(deliveryResult =>
+            {
+                this.logger.Trace($"KafkaEventProducer Partition: {deliveryResult.Result.Partition}, Offset: {deliveryResult.Result.Offset}");
+            });
         }
     }
 }

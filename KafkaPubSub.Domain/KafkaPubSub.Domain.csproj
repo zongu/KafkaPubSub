@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Applibs\ILogPasser.cs" />
+    <Compile Include="Applibs\KafkaEventAdmin.cs" />
     <Compile Include="Applibs\KafkaEventConsumer.cs" />
     <Compile Include="Applibs\KafkaEventProducer.cs" />
     <Compile Include="Applibs\TimeStampHelper.cs" />
