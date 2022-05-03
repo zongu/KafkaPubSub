@@ -70,10 +70,10 @@ namespace KafkaPubSub.Domain.Applibs
                         try
                         {
                             var consumeResult = consumer.Consume(TimeSpan.FromMilliseconds(1000));
-
+                            
                             if (consumeResult != null)
                             {
-                                this.logger.Trace($"KafkaEventConsumer Consume Key:{consumeResult.Message.Key} Offset:{consumeResult.Offset.Value}");
+                                this.logger.Trace($"KafkaEventConsumer Consume Key:{consumeResult.Message.Key} Offset:{consumeResult.Offset.Value}, Partition:{consumeResult.Partition.Value}");
 
                                 var @event = JsonConvert.DeserializeObject<KafkaEventStream>(consumeResult.Message.Value);
                                 if (this.dispatcher.DispatchMessage(@event))

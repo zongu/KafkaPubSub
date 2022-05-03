@@ -9,7 +9,7 @@ namespace KafkaPubSub.Consumer
 
     internal class Program
     {
-        const string borkerList = @"127.0.0.1:9092";
+        const string borkerList = @"localhost:9092";
 
         static void Main(string[] args)
         {
@@ -33,7 +33,7 @@ namespace KafkaPubSub.Consumer
                 using (var admin = new KafkaEventAdmin(borkerList, new LogPasser()))
                 using (var consumer = new KafkaEventConsumer(1, topic, borkerList, new PubSubDispatcher<KafkaEventStream>(), new LogPasser()))
                 {
-                    admin.CreateTopicAsync(subscribTopics.Split(',').Select(s => (s, 4, (short)1))).Wait();
+                    admin.CreateTopicAsync(subscribTopics.Split(',').Select(s => (s, 4, (short)3))).Wait();
 
                     consumer.Start(subscribTopics.Split(','));
 

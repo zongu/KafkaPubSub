@@ -11,7 +11,7 @@ namespace KafkaPubSub.Producer
 
     internal class Program
     {
-        const string borkerList = @"127.0.0.1:9092";
+        const string borkerList = @"localhost:9092";
 
         static void Main(string[] args)
         {
@@ -19,6 +19,7 @@ namespace KafkaPubSub.Producer
             {
                 var running = true;
                 var topic = string.Empty;
+                int counter = 0;
 
                 while (string.IsNullOrEmpty(topic))
                 {
@@ -32,8 +33,11 @@ namespace KafkaPubSub.Producer
                     {
                         while (running)
                         {
-                            producer.Publish(topic, 1, new TimeStampEvent()
+                            counter++;
+
+                            producer.Publish(topic, counter, new TimeStampEvent()
                             {
+                                SN = counter,
                                 UtcDateTimeStamp = TimeStampHelper.UtcNow
                             });
 
