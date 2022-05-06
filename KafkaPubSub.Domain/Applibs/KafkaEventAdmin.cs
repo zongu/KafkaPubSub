@@ -56,12 +56,12 @@ namespace KafkaPubSub.Domain.Applibs
             }
         }
 
-        public (Exception exception, IEnumerable<(TopicPartition topicPartition, long lag)> record) GetConsumerInfo()
+        public (Exception exception, IEnumerable<(string groupId, TopicPartition topicPartition, long lag)> record) GetConsumerInfo()
         {
             try
             {
                 var topicMetadata = this.admin.GetMetadata(TimeSpan.FromSeconds(3))
-                .Topics.SelectMany(t => t.Partitions.Select(p => new TopicPartition(t.Topic, p.PartitionId)));
+                    .Topics.SelectMany(t => t.Partitions.Select(p => new TopicPartition(t.Topic, p.PartitionId)));
                 var consumerGroup = this.admin.ListGroups(TimeSpan.FromSeconds(3)).Where(p => p.Protocol == string.Empty);
 
                 return (null, consumerGroup.SelectMany(consumerInfo =>
@@ -85,12 +85,12 @@ namespace KafkaPubSub.Domain.Applibs
                         var result = topicsWithFoundOffsets.Select(tpo => {
                             if (tpo.Offset.IsSpecial)
                             {
-                                return (tpo.TopicPartition, tpo.Offset.Value);
+                                return (consumerInfo.Group, tpo.TopicPartition, tpo.Offset.Value);
                             }
 
                             var watermark = metadataConsumer.QueryWatermarkOffsets(tpo.TopicPartition, TimeSpan.FromSeconds(3));
 
-                            return (tpo.TopicPartition, watermark.High - tpo.Offset);
+                            return (consumerInfo.Group, tpo.TopicPartition, watermark.High - tpo.Offset);
                         }).ToList();
 
                         metadataConsumer.Close();

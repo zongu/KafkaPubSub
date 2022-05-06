@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaPubSub.Producer", "Kaf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaPubSub.Consumer", "KafkaPubSub.Consumer\KafkaPubSub.Consumer.csproj", "{F6EE027D-A0E1-419F-AD8D-CA2442A613B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaPubSub.Monitor", "KafkaPubSub.Monitor\KafkaPubSub.Monitor.csproj", "{713B8979-D4E8-4748-AADC-737B87A0CD8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F6EE027D-A0E1-419F-AD8D-CA2442A613B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6EE027D-A0E1-419F-AD8D-CA2442A613B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6EE027D-A0E1-419F-AD8D-CA2442A613B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713B8979-D4E8-4748-AADC-737B87A0CD8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713B8979-D4E8-4748-AADC-737B87A0CD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713B8979-D4E8-4748-AADC-737B87A0CD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713B8979-D4E8-4748-AADC-737B87A0CD8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

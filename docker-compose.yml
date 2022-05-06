@@ -26,12 +26,13 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{IP}:9092 # 必須是宿主IP
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
       KAFKA_LOG_RETENTION_HOURS: 24
+      JMX_PORT: 15000
   kafka2:
     container_name: kafka2
     image: wurstmeister/kafka:2.13-2.8.1
     ports:
       - 9093:9093
-      - 15001:15000
+      - 15001:15001
     depends_on:
       - zk
     links:
@@ -42,12 +43,13 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{IP}:9093 # 必須是宿主IP
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9093
       KAFKA_LOG_RETENTION_HOURS: 24
+      JMX_PORT: 15001
   kafka3:
     container_name: kafka3
     image: wurstmeister/kafka:2.13-2.8.1
     ports:
       - 9094:9094
-      - 15002:15000
+      - 15002:15002
     depends_on:
       - zk
     links:
@@ -58,9 +60,10 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://{IP}:9094 # 必須是宿主IP
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9094
       KAFKA_LOG_RETENTION_HOURS: 24
+      JMX_PORT: 15002
   kafka-management:
     container_name: kafka-management
-    image: hlebalbau/kafka-manager:stable
+    image: image: hlebalbau/kafka-manager:stable
     ports:
       - 9000:9000
     depends_on:
