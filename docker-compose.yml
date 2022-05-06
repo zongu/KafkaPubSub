@@ -63,7 +63,7 @@ services:
       JMX_PORT: 15002
   kafka-management:
     container_name: kafka-management
-    image: image: hlebalbau/kafka-manager:stable
+    image: hlebalbau/kafka-manager:stable
     ports:
       - 9000:9000
     depends_on:
